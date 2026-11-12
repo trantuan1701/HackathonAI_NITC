@@ -1,14 +1,67 @@
 # Product Advisor
 
-AI chatbot tư vấn và so sánh sản phẩm theo nhu cầu thực tế của khách hàng. Hệ thống sử dụng LangGraph để quản lý luồng hội thoại, Human-in-the-loop để thu thập thông tin còn thiếu và Qdrant để truy xuất sản phẩm theo từng ngành hàng.
+A Vietnamese AI shopping assistant that gathers customer needs, retrieves relevant products, and explains the trade-offs between recommendations.
+Built by a five-person team for a retail product-advisory hackathon project.
 
-Phiên bản hiện tại triển khai đầy đủ cho **tủ lạnh**, **máy lạnh**, **máy giặt**,
-**máy sấy quần áo**, **máy rửa chén**, **tủ mát**, **tủ đông**,
-**máy nước nóng**, **micro karaoke**, **micro thu âm**, **đồng hồ thông minh**,
-**máy tính để bàn**, **máy tính bảng** và **máy in**, sau đó có thể mở rộng sang
-các sheet sản phẩm khác qua `CategorySpec`.
+## Demo
 
-Tài liệu HTTP API, SSE và Human-in-the-loop: [docs/API.md](docs/API.md).
+[![Watch the Product Advisor demo](docs/assets/demo-preview.jpg)](https://github.com/trantuan1701/HackathonAI_NITC/raw/refs/heads/main/docs/assets/product-advisor-demo.mp4)
+
+**[Watch the demo (66 seconds)](https://github.com/trantuan1701/HackathonAI_NITC/raw/refs/heads/main/docs/assets/product-advisor-demo.mp4)**
+
+The recording shows need clarification, product recommendations, follow-up questions, feedback, and product comparison.
+Playback is accelerated to 1.75x; the silent audio track and the final idle seconds have been removed.
+
+## My contribution
+
+**Tran Anh Tuan - Solution Architect / Team Lead | Team of 5 | July - August 2026**
+
+- Led solution architecture and algorithm selection for the product-advisory workflow.
+- Designed the flow between need extraction, clarification, retrieval, ranking, and grounded responses.
+- Researched long-horizon agent interactions and Mem0-based long-term memory for cross-session personalization, including the separation of persistent user preferences from thread state.
+
+This is a portfolio fork of the [team repository](https://github.com/pminh05/HackathonAI_NITC).
+The implementation is a shared team effort; this section describes my role.
+
+## What the prototype implements
+
+- **Conversation orchestration:** LangGraph routes new needs, follow-up details, comparisons, and requests for more options.
+- **Human-in-the-loop clarification:** interrupt/resume collects missing customer requirements through short multiple-choice forms.
+- **Product retrieval:** Qdrant combines semantic search with category-specific metadata filters before ranking candidates.
+- **Grounded answers:** the assistant explains product choices using retrieved catalog information and streams responses through FastAPI/SSE.
+- **Conversation persistence:** checkpoints retain thread state across requests and support resuming clarification.
+
+**Memory status:** thread checkpoints are implemented.
+Mem0 is a research/design component in this project; the current public code contains a placeholder, not an active cross-session memory integration.
+CRM synchronization and business-impact targets in the product brief are proposed capabilities, not measured deployment results.
+
+## Architecture
+
+```text
+Customer message / clarification answer
+  -> LangGraph: analyze intent and update need profile
+  -> Missing requirements? Interrupt -> clarify -> resume
+  -> Qdrant: metadata filtering + semantic retrieval
+  -> Rank candidates -> LLM explanation -> FastAPI/SSE -> chat UI
+
+Thread state -> SQLite / PostgreSQL checkpoints
+Cross-session personalization -> Mem0 research and integration design
+```
+
+## Stack
+
+| Layer | Technologies |
+| --- | --- |
+| Agent and LLM workflow | Python, LangChain, LangGraph, Gemini; optional Qwen fallback |
+| Retrieval and state | Qdrant, SQLite / PostgreSQL checkpoints |
+| API and interface | FastAPI, Server-Sent Events, React, TypeScript, Vite |
+| Tracing | LangSmith |
+| Long-term memory research | Mem0 |
+
+## Setup and technical reference
+
+The instructions below are retained from the team repository.
+See also the [HTTP API and streaming reference](docs/API.md) and [category extension guide](docs/ADDING_CATEGORIES.md).
 
 ## Yêu cầu hệ thống
 
