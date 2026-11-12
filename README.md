@@ -33,7 +33,6 @@ The implementation is a shared team effort; this section describes my role.
 
 **Memory status:** thread checkpoints are implemented.
 Mem0 is a research/design component in this project; the current public code contains a placeholder, not an active cross-session memory integration.
-CRM synchronization and business-impact targets in the product brief are proposed capabilities, not measured deployment results.
 
 ## Architecture
 
