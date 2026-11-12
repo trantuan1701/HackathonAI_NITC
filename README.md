@@ -5,7 +5,7 @@ Built by a five-person team for a retail product-advisory hackathon project.
 
 ## Demo
 
-[![Watch the Product Advisor demo](docs/assets/demo-preview.jpg)](https://github.com/trantuan1701/HackathonAI_NITC/raw/refs/heads/main/docs/assets/product-advisor-demo.mp4)
+https://github.com/user-attachments/assets/a83c76d5-2af8-4b05-a9fc-d1176d1938c6
 
 **[Watch the demo (66 seconds)](https://github.com/trantuan1701/HackathonAI_NITC/raw/refs/heads/main/docs/assets/product-advisor-demo.mp4)**
 
